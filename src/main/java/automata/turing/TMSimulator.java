@@ -23,20 +23,17 @@ import automata.Configuration;
 import automata.Transition;
 import debug.EDebug;
 import gui.environment.Universe;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
+import java.util.*;
 
 /**
  * The TM simulator progresses TM configurations on a possibly multitape Turing
  * machine.
  *
  * @author Thomas Finley
+ * @see AcceptByFinalStateFilter
+ * @see AcceptByHaltingFilter
  */
 
 public class TMSimulator extends AutomatonSimulator {
@@ -338,6 +335,18 @@ public class TMSimulator extends AutomatonSimulator {
      * the machine in a final state
      */
     public boolean isAccepted() {
+//        return false;
+        if (Objects.nonNull(myConfigurations) && !myConfigurations.isEmpty()) {
+            for (Configuration c : myConfigurations) {
+                if (c.isAccept()) {
+                    TMConfiguration tmc = (TMConfiguration) c;
+                    System.out.println("Accepted: " + c +
+                            ", halted=" + tmc.isHalted() +
+                            ", in final state=" + myAutomaton.finalStates.contains(tmc.getCurrentState()));
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -358,12 +367,26 @@ public class TMSimulator extends AutomatonSimulator {
         }
         while (!myConfigurations.isEmpty()) {
             //System.out.println("HERE!!!!!");
-            if (isAccepted())
-                return true;
+//            if (isAccepted())
+//                return true;
             ArrayList<Configuration> configurationsToAdd = new ArrayList<>();
             Iterator<Configuration> it = myConfigurations.iterator();
             while (it.hasNext()) {
                 TMConfiguration configuration = (TMConfiguration) it.next();
+
+                // put check here
+                if (configuration.isAccept() && myAutomaton.finalStates.contains(configuration.getCurrentState())) {
+                    if (Universe.curProfile.isDebugOutput()) {
+                        System.out.println("DEBUG: Accepted by configuration " + configuration);
+                    }
+                    return true;
+                } else if (configuration.isHalted()) {
+                    if (Universe.curProfile.isDebugOutput()) {
+                        System.out.println("DEBUG: Rejected due to halt by configuration " + configuration);
+                    }
+                    return false;
+                }
+
                 ArrayList<Configuration> configsToAdd = stepConfiguration(configuration);
                 configurationsToAdd.addAll(configsToAdd);
                 it.remove();

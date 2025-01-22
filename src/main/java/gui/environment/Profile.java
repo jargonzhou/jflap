@@ -101,6 +101,8 @@ public class Profile {
     private JCheckBoxMenuItem turingAcceptByHaltingCheckBox;
     private JCheckBoxMenuItem turingAllowStayCheckBox;
 
+    private boolean debugOutput;
+
     public Profile() {
         emptyString = lambda;
         transTuringFinal = false;
@@ -143,7 +145,7 @@ public class Profile {
             }
         });
 
-
+        debugOutput = false;
     }
 
     protected static Element createElement(Document document, String tagname,
@@ -273,6 +275,14 @@ public class Profile {
 
     public JCheckBoxMenuItem getAllowStayCheckBox() {
         return turingAllowStayCheckBox;
+    }
+
+    public boolean isDebugOutput() {
+        return debugOutput;
+    }
+
+    public void setDebugOutput(boolean debugOutput) {
+        this.debugOutput = debugOutput;
     }
 
     /**

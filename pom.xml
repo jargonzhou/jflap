@@ -14,24 +14,30 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>repository.openmindonline.it</id>
-            <name>openmind public repository</name>
-            <url>https://repository.openmindonline.it/</url>
-        </repository>
-        <repository>
-            <id>maven.classez.org</id>
-            <name>Classez repository</name>
-            <url>https://maven.clazzes.org/</url>
-        </repository>
-    </repositories>
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>repository.openmindonline.it</id>-->
+    <!--            <name>openmind public repository</name>-->
+    <!--            <url>https://repository.openmindonline.it/</url>-->
+    <!--        </repository>-->
+    <!--        <repository>-->
+    <!--            <id>maven.classez.org</id>-->
+    <!--            <name>Classez repository</name>-->
+    <!--            <url>https://maven.clazzes.org/</url>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
 
     <dependencies>
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-all</artifactId>
             <version>1.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.11.4</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -54,5 +60,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>
